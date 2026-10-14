@@ -6,6 +6,7 @@ const fs = require('fs/promises');
 //!Multer
 const multer = require('multer'); //?npm install multer
 const path = require('path');
+const { request } = require('http');
 
 const storage = multer.diskStorage({
     destination: (request, file, callback) => {
@@ -25,6 +26,27 @@ router.get('/test', (request, response) => {
         message: 'Ez a végpont működik.'
     });
 });
+
+
+const tomb= []
+router.post('/saveData', async(request,response)=>{
+
+    try{
+        const data = request.body
+        tomb.push(data)
+        console.log(tomb)
+        response.status(200).json({
+            message: "Ez a végpont működik",
+            
+        })
+    }
+    catch(error){
+        response.status(500).json({
+            message: "Hiba történt"
+        })
+    }
+
+})
 
 //?GET /api/testsql
 router.get('/testsql', async (request, response) => {
